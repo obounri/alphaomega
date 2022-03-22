@@ -3,7 +3,7 @@ import os
 from pickle import EMPTY_LIST
 from posixpath import splitdrive
 import sys
-import blessed
+# import blessed
 
 # setting variables
 table = { "h": 0, "l": 0 }
