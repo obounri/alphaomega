@@ -1,10 +1,16 @@
 import cmd
+from curses import KEY_ENTER, KEY_RIGHT
 from distutils.errors import LibError
+import imp
+from operator import truediv
 import os
 from posixpath import splitdrive
 import sys
 from time import sleep
 import blessed
+from orders import treat_orders
+# from orders import debug_orders
+from phase_2_3 import pacify
 
 # setting variables
 term = blessed.Terminal()
@@ -22,7 +28,7 @@ player2 = { "alpha": { "x": 0, "y": 0, "energy": 100 },
 
 food = []
 
-WALL = '🟫'
+WALL = '🌀'
 BLANK = '  '
 ALPHA1 = '🐺'
 ALPHA2 = '🦊'
@@ -30,8 +36,9 @@ OMEGA1 =  '🦖'
 OMEGA2 =  '🐊'
 N1 = '🐈'
 N2 = '🐕'
+PACIFY = '🌌'
 FOODS = {
-    "berries": '🫐',
+    "berries": '⏩',
     "apples": '🍎',
     "mice": '🐁',
     "rabbits": '🐇',
@@ -116,8 +123,8 @@ for line in lines:
 
 ### game loop ###
 rounds = 201
-cmd1 = ""
-cmd2 = ""
+# cmds = []
+# pacified = []
 
 while rounds:
     rounds -= 1
@@ -146,11 +153,25 @@ while rounds:
     print(term.home + term.clear)
     for row in world:
         print(''.join(row))
-    # print(cmd1)
-    # print(cmd2)
+    # for t in cmds: ###
+    #     print(t) ###
+    # for p in pacified: ###
+    #     print(p) ###
+    # print() ###
     if rounds > 0:
-        cmd1 = input("Enter player 1's orders:")
-        cmd2 = input("Enter player 2's orders:")
+        cmds = []
+        pacified = []
+        print()
+        cmd1 = input("Enter player 1's orders: ")
+        cmd2 = input("Enter player 2's orders: ")
+        cmds.append(treat_orders(cmd1))
+        cmds.append(treat_orders(cmd2))
+        if len(cmds[0]) == 4 or len(cmds[1]) == 4:
+            pacified, p1, p2 = pacify(table, player1["omega"], player2["omega"], cmds)
+            if p1 == 1:
+                player1["omega"]["energy"] -= 40
+            if p2 == 1:
+                player2["omega"]["energy"] -= 40            
     else:
         print("200 rounds played ")
 
@@ -158,3 +179,16 @@ while rounds:
 # print("player1", player1)
 # print("player2", player2)
 # print("food", food)
+# str(max(abs(coord[1] - player1["omega"]["y"]), abs(coord[0] - player1["omega"]["x"])))
+### game flow = take orders, return = eating[], attacks[], moves[], pacification[], pacify, assign bonuses, eat(), attack(), move()
+### order exemple = 1-2:*3-4 5-6:@7-8 9-10:<10-11 13-14:pacify
+### pacified = [[x1, y1], [x2, y2], ...]
+            #
+            # possible animation template
+            #
+            # for coord in pacified:
+            #     world[coord[0]][coord[1]] = PACIFY
+            #     print(term.home + term.clear)
+            #     for row in world:
+            #         print(''.join(row))
+            #     sleep(0.5)
