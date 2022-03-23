@@ -1,11 +1,14 @@
+import cmd
 from distutils.errors import LibError
 import os
-from pickle import EMPTY_LIST
 from posixpath import splitdrive
 import sys
-# import blessed
+from time import sleep
+import blessed
 
 # setting variables
+term = blessed.Terminal()
+
 table = { "h": 0, "l": 0 }
 
 player1 = { "alpha": { "x": 0, "y": 0, "energy": 100 },
@@ -111,30 +114,45 @@ for line in lines:
         food.append(f)
 ### end parser ###
 
-### initializing map ###    
-world = [[BLANK] * table["l"] for _ in range(table["h"])]
-for i in range(table["h"]):
-    world[i][0] = WALL
-    world[i][-1] = WALL
-for j in range(table["l"]):
-    world[0][j] = WALL
-    world[-1][j] = WALL
+### game loop ###
+rounds = 201
+cmd1 = ""
+cmd2 = ""
 
-world[player1["alpha"]["x"]][player1["alpha"]["y"]] = ALPHA1
-world[player2["alpha"]["x"]][player2["alpha"]["y"]] = ALPHA2
-world[player1["omega"]["x"]][player1["omega"]["y"]] = OMEGA1
-world[player2["omega"]["x"]][player2["omega"]["y"]] = OMEGA2
+while rounds:
+    rounds -= 1
+    ### draw map ###
+    world = [[BLANK] * table["l"] for _ in range(table["h"])]
+    for i in range(table["h"]):
+        world[i][0] = WALL
+        world[i][-1] = WALL
+    for j in range(table["l"]):
+        world[0][j] = WALL
+        world[-1][j] = WALL
 
-for normal in player1["normal"]:
-    world[normal["x"]][normal["y"]] = N1
-for normal in player2["normal"]:
-    world[normal["x"]][normal["y"]] = N2
+    world[player1["alpha"]["x"]][player1["alpha"]["y"]] = ALPHA1
+    world[player2["alpha"]["x"]][player2["alpha"]["y"]] = ALPHA2
+    world[player1["omega"]["x"]][player1["omega"]["y"]] = OMEGA1
+    world[player2["omega"]["x"]][player2["omega"]["y"]] = OMEGA2
 
-for l in food:
-    world[l["x"]][l["y"]] = FOODS[l["type"]]
+    for normal in player1["normal"]:
+        world[normal["x"]][normal["y"]] = N1
+    for normal in player2["normal"]:
+        world[normal["x"]][normal["y"]] = N2
 
-for row in world:
-    print(''.join(row))
+    for l in food:
+        world[l["x"]][l["y"]] = FOODS[l["type"]]
+    ### map drawn, print it ###
+    print(term.home + term.clear)
+    for row in world:
+        print(''.join(row))
+    # print(cmd1)
+    # print(cmd2)
+    if rounds > 0:
+        cmd1 = input("Enter player 1's orders:")
+        cmd2 = input("Enter player 2's orders:")
+    else:
+        print("200 rounds played ")
 
 # print(table)
 # print("player1", player1)
