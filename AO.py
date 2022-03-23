@@ -3,8 +3,12 @@ from distutils.errors import LibError
 import os
 from posixpath import splitdrive
 import sys
+<<<<<<< HEAD
 from time import sleep
 import blessed
+=======
+# import blessed
+>>>>>>> aaead61d79c0559be38884493602f53adbd3acf9
 
 
 # setting variables
