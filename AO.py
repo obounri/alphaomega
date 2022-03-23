@@ -79,7 +79,9 @@ while rounds:
             if p1 == 1:
                 player1["omega"]["energy"] -= 40
             if p2 == 1:
-                player2["omega"]["energy"] -= 40            
+                player2["omega"]["energy"] -= 40
+        #bonus
+        
     else:
         print("200 rounds played ")
 
