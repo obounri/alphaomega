@@ -25,3 +25,4 @@ def pacify(table, omega1, omega2, orders):
                         if in_map(table, omega2["x"] + i, omega2["y"] + j) == 1 and [omega2["x"] + i, omega2["y"] + j] not in pacified:
                             pacified.append([omega2["x"] + i, omega2["y"] + j])
     return pacified, p1_p, p2_p
+

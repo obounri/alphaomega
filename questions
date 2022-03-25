@@ -1,0 +1,11 @@
+1.4 Assignation des bonus:  
+..chaque loup "peut" recevoir un bonus..
+peut = toujours(a chaque tour)?, il n'y a pas d'ordres de joueurs pour assigner les bonus, donc quand dervrions nous les assigner et
+sous quels criteres
+
+1.6 Combats:
+- l'attaque retire des points d'energie: combien? (1/10 de l'energie de de celui qui attaque? ou de la cible?)
+- ... en tenant compte de l'energie du loup garou au debut du tour et du bonus d'energie (qu'en est-il des points consommes en phase
+ ou les loups-g se nourissent )
+
+Map: should the grid cells have borders

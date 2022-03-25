@@ -101,4 +101,4 @@ while rounds:
             #     print(term.home + term.clear)
             #     for row in world:
             #         print(''.join(row))
-            #     sleep(0.5)
+            # sleep(0.5)
