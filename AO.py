@@ -8,7 +8,7 @@ import sys
 from time import sleep
 import blessed
 from orders import treat_orders
-from phase_2_3 import pacify
+from phase_2_3 import pacify, assign_bonuses
 from variables import *
 from parsing import parser  
 
@@ -55,6 +55,11 @@ while rounds:
 
     for l in food:
         world[l["x"]][l["y"]] = FOODS[l["type"]]
+
+    for tmp in player1["normal"]:
+        tmp = 0
+    for tmp in player2["normal"]:    
+        tmp = 0
     ### map drawn, print it ###
     print(term.home + term.clear)
     for row in world:
@@ -74,7 +79,14 @@ while rounds:
                 player1["omega"]["energy"] -= 40
             if p2 == 1:
                 player2["omega"]["energy"] -= 40
-        #bonus
+        player1["normal"], player2["normal"] = assign_bonuses(term, world, table, player1["normal"], player2["normal"], player1["alpha"], player2["alpha"])
+        for n in player1["normal"]:
+            if "tmp" in n:
+                print("1 [ ", n["x"], ", ", n["y"],  " ] energy : ", n["energy"], " tmp : ", n["tmp"])
+        for n in player2["normal"]:
+            if "tmp" in n:
+                print("2 [ ", n["x"], ", ", n["y"],  " ] energy : ", n["energy"], "tmp : ", n["tmp"])
+        # sleep(5)
     else:
         print("200 rounds played ")
 
@@ -96,3 +108,4 @@ while rounds:
             #         print("--┼" * table["l"])
             # sleep(2)
             #
+

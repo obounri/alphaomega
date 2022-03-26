@@ -45,7 +45,7 @@ def     parser(file):
             map = 0
         elif ww == 1:
             splited_ww = line.split()
-            normal = { "x": 0, "y": 0, "energy": 100 }
+            normal = { "x": 0, "y": 0, "energy": 100, "tmp": 0 }
             if (splited_ww[0] == "1" and splited_ww[3] == "alpha"):
                 player1["alpha"]["x"] = int(splited_ww[2])
                 player1["alpha"]["y"] = int(splited_ww[1])
