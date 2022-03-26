@@ -40,8 +40,8 @@ def     parser(file):
 
         if map == 1:
             wh = line.split()
-            table["h"] = int(wh[0]) + 2
-            table["l"] = int(wh[1]) + 2
+            table["h"] = int(wh[0]) + 1
+            table["l"] = int(wh[1]) + 1
             map = 0
         elif ww == 1:
             splited_ww = line.split()

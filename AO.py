@@ -10,7 +10,7 @@ import blessed
 from orders import treat_orders
 from phase_2_3 import pacify
 from variables import *
-from parsing import parser
+from parsing import parser  
 
 # setting variables
 term = blessed.Terminal()
@@ -38,12 +38,10 @@ while rounds:
     rounds -= 1
     ### draw map ###
     world = [[BLANK] * table["l"] for _ in range(table["h"])]
-    for i in range(table["h"]):
-        world[i][0] = WALL
-        world[i][-1] = WALL
-    for j in range(table["l"]):
-        world[0][j] = WALL
-        world[-1][j] = WALL
+    for i in range(1, table["h"]):
+        world[i][0] = str(i).center(2)
+    for j in range(1, table["l"]):
+        world[0][j] = str(j).center(2)
 
     world[player1["alpha"]["x"]][player1["alpha"]["y"]] = ALPHA1
     world[player2["alpha"]["x"]][player2["alpha"]["y"]] = ALPHA2
@@ -60,12 +58,8 @@ while rounds:
     ### map drawn, print it ###
     print(term.home + term.clear)
     for row in world:
-        print(''.join(row))
-    # for t in cmds: ###
-    #     print(t) ###
-    # for p in pacified: ###
-    #     print(p) ###
-    # print() ###
+        print('|'.join(row))
+        print("--┼" * table["l"])
     if rounds > 0:
         cmds = []
         pacified = []
@@ -81,7 +75,6 @@ while rounds:
             if p2 == 1:
                 player2["omega"]["energy"] -= 40
         #bonus
-        
     else:
         print("200 rounds played ")
 
@@ -93,12 +86,13 @@ while rounds:
 ### game flow = take orders, return = eating[], attacks[], moves[], pacification[], pacify, assign bonuses, eat(), attack(), move()
 ### order exemple = 1-2:*3-4 5-6:@7-8 9-10:<10-11 13-14:pacify
 ### pacified = [[x1, y1], [x2, y2], ...]
-            #
             # possible animation template
             #
             # for coord in pacified:
             #     world[coord[0]][coord[1]] = PACIFY
             #     print(term.home + term.clear)
             #     for row in world:
-            #         print(''.join(row))
-            # sleep(0.5)
+            #         print('|'.join(row))
+            #         print("--┼" * table["l"])
+            # sleep(2)
+            #
