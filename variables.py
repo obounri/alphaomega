@@ -1,5 +1,5 @@
 
-WALL = '🌀'
+# WALL = '🌀'
 BLANK = '  '
 ALPHA1 = '🐺'
 ALPHA2 = '🦊'
@@ -7,7 +7,7 @@ OMEGA1 =  '🦖'
 OMEGA2 =  '🐊'
 N1 = '🐈'
 N2 = '🐕'
-PACIFY = '🌌'
+# PACIFY = '🌌'
 FOODS = {
     "berries": '⏩',
     "apples": '🍎',

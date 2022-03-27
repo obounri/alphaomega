@@ -74,8 +74,6 @@ while rounds:
         cmd2 = input("Enter player 2's orders: ")
         cmds.append(treat_orders(cmd1))
         cmds.append(treat_orders(cmd2))
-        print(cmds[0])
-        print(cmds[1])
         if len(cmds[0]) == 4 or len(cmds[1]) == 4:
             pacified, p1, p2 = pacify(table, player1["omega"], player2["omega"], cmds)
             if p1 == 1:
@@ -83,8 +81,8 @@ while rounds:
             if p2 == 1:
                 player2["omega"]["energy"] -= 40
         player1["normal"], player2["normal"] = assign_bonuses(table, player1, player2)
-        foods, player1, player2 = eat(table, cmds, foods, player1, player2)
-
+        foods, player1, player2, world = eat(table, cmds, foods, player1, player2, world)
+        
     else:
         print("200 rounds played ")
 
