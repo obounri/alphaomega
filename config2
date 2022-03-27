@@ -1,0 +1,43 @@
+map:
+17 20
+werewolves: 
+1 2 2 alpha 
+1 1 1 omega 
+1 1 2 normal     
+1 2 1 normal
+1 1 3 normal
+1 2 3 normal
+1 3 3 normal
+1 3 2 normal
+1 3 1 normal
+2 16 19 alpha
+2 17 20 omega
+2 17 19 normal
+2 16 20 normal
+2 17 18 normal
+2 16 18 normal
+2 15 18 normal
+2 15 19 normal
+2 15 20 normal
+foods: 
+4 4 berries 10
+4 5 berries 10
+5 4 berries 10
+5 5 berries 10
+13 16 berries 10
+13 17 berries 10
+14 16 berries 10
+14 17 berries 10
+1 4 apples 30
+1 5 apples 30
+17 16 apples 30
+17 17 apples 30
+4 1 mice 50
+5 1 mice 50
+13 20 mice 50
+14 20 mice 50
+5 7 rabbits 100
+7 5 deers 500
+13 14 rabbits 100
+11 16 deers 500 
+

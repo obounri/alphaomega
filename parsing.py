@@ -45,7 +45,7 @@ def     parser(file):
             map = 0
         elif ww == 1:
             splited_ww = line.split()
-            normal = { "x": 0, "y": 0, "energy": 100, "tmp": 0 }
+            normal = { "x": 0, "y": 0, "energy": 20, "tmp": 0 }
             if (splited_ww[0] == "1" and splited_ww[3] == "alpha"):
                 player1["alpha"]["x"] = int(splited_ww[2])
                 player1["alpha"]["y"] = int(splited_ww[1])
@@ -76,3 +76,28 @@ def     parser(file):
             food.append(f)
     return table, player1, player2, food
 ### end parser ###
+
+def     treat_orders(cmd):
+    allowed = ['<', '*', '@']
+    treated = [[], [], [], []]
+    orders = cmd.split()
+    for order in orders:
+        details = order.split(':')
+        coords = []
+        if details[1][0] in allowed:
+            push_to = allowed.index(details[1][0])
+            for a in allowed:
+                details[1] = details[1].lstrip(a)
+            lhs_cmd = details[0].split('-')
+            rhs_cmd = details[1].split('-')
+            coords.append(int(lhs_cmd[1]))
+            coords.append(int(lhs_cmd[0]))
+            coords.append(int(rhs_cmd[1]))
+            coords.append(int(rhs_cmd[0]))
+            treated[push_to].append(coords)
+        elif details[1] == "pacify":
+            lhs_cmd = details[0].split('-')
+            coords.append(int(lhs_cmd[1]))
+            coords.append(int(lhs_cmd[0]))
+            treated[3].append(coords)
+    return treated

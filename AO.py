@@ -7,19 +7,21 @@ from posixpath import splitdrive
 import sys
 from time import sleep
 import blessed
-from orders import treat_orders
 from phase_2_3 import pacify, assign_bonuses
 from variables import *
-from parsing import parser  
+from parsing import parser, treat_orders
+from eating import eat
 
 # setting variables
 term = blessed.Terminal()
 ### variables are set in variables.py
 
+### check if user gave config file as arg, if error, print error and exit
 if (len(sys.argv) == 1):
     print("no path was given")
     sys.exit(0)
 
+### open file, if error, print error and exit
 try:
     file = open(sys.argv[1], "r")
 except IOError:
@@ -27,12 +29,10 @@ except IOError:
     sys.exit(0)
 
 ### parser is defined in parsing.py
-table, player1, player2, food = parser(file)
+table, player1, player2, foods = parser(file)
 
 ### game loop ###
 rounds = 201
-# cmds = []
-# pacified = []
 
 while rounds:
     rounds -= 1
@@ -43,18 +43,18 @@ while rounds:
     for j in range(1, table["l"]):
         world[0][j] = str(j).center(2)
 
-    world[player1["alpha"]["x"]][player1["alpha"]["y"]] = ALPHA1
-    world[player2["alpha"]["x"]][player2["alpha"]["y"]] = ALPHA2
-    world[player1["omega"]["x"]][player1["omega"]["y"]] = OMEGA1
-    world[player2["omega"]["x"]][player2["omega"]["y"]] = OMEGA2
+    world[player1["alpha"]["y"]][player1["alpha"]["x"]] = ALPHA1
+    world[player2["alpha"]["y"]][player2["alpha"]["x"]] = ALPHA2
+    world[player1["omega"]["y"]][player1["omega"]["x"]] = OMEGA1
+    world[player2["omega"]["y"]][player2["omega"]["x"]] = OMEGA2
 
     for normal in player1["normal"]:
-        world[normal["x"]][normal["y"]] = N1
+        world[normal["y"]][normal["x"]] = N1
     for normal in player2["normal"]:
-        world[normal["x"]][normal["y"]] = N2
+        world[normal["y"]][normal["x"]] = N2
 
-    for l in food:
-        world[l["x"]][l["y"]] = FOODS[l["type"]]
+    for l in foods:
+        world[l["y"]][l["x"]] = FOODS[l["type"]]
 
     for tmp in player1["normal"]:
         tmp = 0
@@ -65,6 +65,7 @@ while rounds:
     for row in world:
         print('|'.join(row))
         print("--┼" * table["l"])
+
     if rounds > 0:
         cmds = []
         pacified = []
@@ -73,20 +74,17 @@ while rounds:
         cmd2 = input("Enter player 2's orders: ")
         cmds.append(treat_orders(cmd1))
         cmds.append(treat_orders(cmd2))
+        print(cmds[0])
+        print(cmds[1])
         if len(cmds[0]) == 4 or len(cmds[1]) == 4:
             pacified, p1, p2 = pacify(table, player1["omega"], player2["omega"], cmds)
             if p1 == 1:
                 player1["omega"]["energy"] -= 40
             if p2 == 1:
                 player2["omega"]["energy"] -= 40
-        player1["normal"], player2["normal"] = assign_bonuses(term, world, table, player1["normal"], player2["normal"], player1["alpha"], player2["alpha"])
-        for n in player1["normal"]:
-            if "tmp" in n:
-                print("1 [ ", n["x"], ", ", n["y"],  " ] energy : ", n["energy"], " tmp : ", n["tmp"])
-        for n in player2["normal"]:
-            if "tmp" in n:
-                print("2 [ ", n["x"], ", ", n["y"],  " ] energy : ", n["energy"], "tmp : ", n["tmp"])
-        # sleep(5)
+        player1["normal"], player2["normal"] = assign_bonuses(table, player1, player2)
+        foods, player1, player2 = eat(table, cmds, foods, player1, player2)
+
     else:
         print("200 rounds played ")
 
@@ -108,4 +106,7 @@ while rounds:
             #         print("--┼" * table["l"])
             # sleep(2)
             #
-
+# check if target cell has food
+# check if first coord is ww
+# target cell is in perimeter of one cell away 
+# increment ww energy points while food_energy != 0 and ww_energy != 100
