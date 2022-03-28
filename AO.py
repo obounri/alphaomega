@@ -12,16 +12,16 @@ from phase_2_3 import pacify, assign_bonuses
 from variables import *
 from parsing import parser, treat_orders
 from eating import eat
-# from attack import move
 from move import move
+from AI import get_AI_orders
 
 # setting variables
 term = blessed.Terminal()
 ### variables are set in variables.py
 
 ## check if user gave config file as arg, if error, print error and exit
-if (len(sys.argv) == 1):
-    print("no path was given")
+if (len(sys.argv) != 6):
+    print("Wrong arguments")
     sys.exit(0)
 
 ### open file, if error, print error and exit
@@ -30,6 +30,9 @@ try:
 except IOError:
     print("Error: File does not appear to exist.")
     sys.exit(0)
+
+type1 = sys.argv[3]
+type2 = sys.argv[5]
 
 ### parser is defined in parsing.py
 table, player1, player2, foods = parser(file)
@@ -46,8 +49,13 @@ while rounds:
         print("Player 1 Wins !")
         sys.exit(0)
 
+
     print(term.home + term.clear)
     if rounds > 0 and rounds != 200:
+        if type1 == "AI" and round != 200:
+            print("AI of player 1 played", cmd1)
+        if type2 == "AI" and round != 200:
+            print("AI of player 2 played", cmd2)
         pacified = []
         cmds.append(treat_orders(cmd1))
         cmds.append(treat_orders(cmd2))
@@ -98,8 +106,16 @@ while rounds:
 
     rounds -= 1
     cmds = []
-    cmd1 = input("Enter player 1's orders: ")
-    cmd2 = input("Enter player 2's orders: ")
+    if type1 == "human":
+        cmd1 = input("Enter player 1's orders: ")
+    elif type1 == "AI":
+        cmd1 = get_AI_orders(table, player1)
+        print("AI of player 1 played", cmd1)
+    if type2 == "human":
+        cmd2 = input("Enter player 2's orders: ")
+    elif type2 == "AI":
+        cmd2 = get_AI_orders(table, player2)
+        print("AI of player 2 played", cmd2)
 
 # print(table)
 # print("player1", player1)
