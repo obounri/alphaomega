@@ -1,8 +1,4 @@
-
-def in_map(table, x, y):
-    if x < 1 or x > table["l"] - 1 or y < 1 or y > table["h"] - 1:
-        return 0
-    return 1
+from utils import in_map, perimeter
 
 def pacify(table, omega1, omega2, orders):
     pacified = []
@@ -25,14 +21,6 @@ def pacify(table, omega1, omega2, orders):
                         if in_map(table, omega2["x"] + i, omega2["y"] + j) == 1 and [omega2["x"] + i, omega2["y"] + j] not in pacified:
                             pacified.append([omega2["x"] + i, omega2["y"] + j])
     return pacified, p1_p, p2_p
-
-def     perimeter(table, x, y, p):
-    coords = []
-    for i in range((-p), (p + 1)):
-        for j in range((-p), (p + 1)):
-            if in_map(table, x + i, y + j) == 1:
-                coords.append([x + i, y + j])
-    return coords
 
 def assign_bonuses(table, player1, player2):
     new1 = []

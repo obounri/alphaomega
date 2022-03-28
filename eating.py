@@ -1,22 +1,6 @@
-from phase_2_3 import perimeter
+from utils import cell_has_ww, cell_has_food, perimeter
 
-def cell_has_food(cell, foods):
-    for food in foods:
-        if food["x"] == cell[0] and food["y"] == cell[1]:
-            return 1, foods.index(food)
-    return 0, 0
-
-def cell_has_ww(cell, player):
-    if player["alpha"]["x"] == cell[0] and player["alpha"]["y"] == cell[1]:
-        return 1, 0
-    if player["omega"]["x"] == cell[0] and player["omega"]["y"] == cell[1]:
-        return 2, 0
-    for ww in player["normal"]:
-        if ww["x"] == cell[0] and ww["y"] == cell[1]:
-            return 3, player["normal"].index(ww)
-    return 0, 0
-
-def eat(table, cmds, foods, player1, player2, world):
+def eat(table, cmds, foods, player1, player2):
     for cmd in cmds[0][0]:
         has_food, food_cell = cell_has_food([cmd[2], cmd[3]], foods)
         has_ww, ww_cell = cell_has_ww([cmd[0], cmd[1]], player1)
@@ -55,6 +39,6 @@ def eat(table, cmds, foods, player1, player2, world):
             if foods[food_cell]["energy"] == 0:
                 del foods[food_cell]
     
-    return foods, player1, player2, world
+    return foods, player1, player2
     
 

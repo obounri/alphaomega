@@ -11,6 +11,7 @@ from phase_2_3 import pacify, assign_bonuses
 from variables import *
 from parsing import parser, treat_orders
 from eating import eat
+from attack import move
 
 # setting variables
 term = blessed.Terminal()
@@ -81,7 +82,9 @@ while rounds:
             if p2 == 1:
                 player2["omega"]["energy"] -= 40
         player1["normal"], player2["normal"] = assign_bonuses(table, player1, player2)
-        foods, player1, player2, world = eat(table, cmds, foods, player1, player2, world)
+        foods, player1, player2 = eat(table, cmds, foods, player1, player2)
+        # attack
+        player1, player2 = move(table, cmds, player1, player2)
         
     else:
         print("200 rounds played ")
