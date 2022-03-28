@@ -11,7 +11,8 @@ from phase_2_3 import pacify, assign_bonuses
 from variables import *
 from parsing import parser, treat_orders
 from eating import eat
-from attack import move
+# from attack import move
+from move import move
 
 # setting variables
 term = blessed.Terminal()
@@ -33,10 +34,29 @@ except IOError:
 table, player1, player2, foods = parser(file)
 
 ### game loop ###
-rounds = 201
+rounds = 200
 
 while rounds:
-    rounds -= 1
+
+    print(term.home + term.clear)
+    if rounds > 0 and rounds != 200:
+        pacified = []
+        cmds.append(treat_orders(cmd1))
+        cmds.append(treat_orders(cmd2))
+        if len(cmds[0]) == 4 or len(cmds[1]) == 4:
+            pacified, p1, p2 = pacify(table, player1["omega"], player2["omega"], cmds)
+            if p1 == 1:
+                player1["omega"]["energy"] -= 40
+            if p2 == 1:
+                player2["omega"]["energy"] -= 40
+        player1["normal"], player2["normal"] = assign_bonuses(table, player1, player2)
+        foods, player1, player2 = eat(table, cmds, foods, player1, player2)
+        # attack
+        player1, player2 = move(table, cmds, player1, player2)
+        
+    elif rounds == 0:
+        print("200 rounds played ")
+
     ### draw map ###
     world = [[BLANK] * table["l"] for _ in range(table["h"])]
     for i in range(1, table["h"]):
@@ -62,32 +82,15 @@ while rounds:
     for tmp in player2["normal"]:    
         tmp = 0
     ### map drawn, print it ###
-    print(term.home + term.clear)
+    print("round ", 200 - rounds + 1)
     for row in world:
         print('|'.join(row))
         print("--┼" * table["l"])
 
-    if rounds > 0:
-        cmds = []
-        pacified = []
-        print()
-        cmd1 = input("Enter player 1's orders: ")
-        cmd2 = input("Enter player 2's orders: ")
-        cmds.append(treat_orders(cmd1))
-        cmds.append(treat_orders(cmd2))
-        if len(cmds[0]) == 4 or len(cmds[1]) == 4:
-            pacified, p1, p2 = pacify(table, player1["omega"], player2["omega"], cmds)
-            if p1 == 1:
-                player1["omega"]["energy"] -= 40
-            if p2 == 1:
-                player2["omega"]["energy"] -= 40
-        player1["normal"], player2["normal"] = assign_bonuses(table, player1, player2)
-        foods, player1, player2 = eat(table, cmds, foods, player1, player2)
-        # attack
-        player1, player2 = move(table, cmds, player1, player2)
-        
-    else:
-        print("200 rounds played ")
+    rounds -= 1
+    cmds = []
+    cmd1 = input("Enter player 1's orders: ")
+    cmd2 = input("Enter player 2's orders: ")
 
 # print(table)
 # print("player1", player1)
