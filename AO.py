@@ -18,13 +18,13 @@ term = blessed.Terminal()
 ### variables are set in variables.py
 
 ### check if user gave config file as arg, if error, print error and exit
-if (len(sys.argv) == 1):
-    print("no path was given")
-    sys.exit(0)
+# if (len(sys.argv) == 1):
+#     print("no path was given")
+#     sys.exit(0)
 
 ### open file, if error, print error and exit
 try:
-    file = open(sys.argv[1], "r")
+    file = open("config2", "r")
 except IOError:
     print("Error: File does not appear to exist.")
     sys.exit(0)
