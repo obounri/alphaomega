@@ -7,6 +7,7 @@ from posixpath import splitdrive
 import sys
 from time import sleep
 import blessed
+from attack import attack
 from phase_2_3 import pacify, assign_bonuses
 from variables import *
 from parsing import parser, treat_orders
@@ -18,14 +19,14 @@ from move import move
 term = blessed.Terminal()
 ### variables are set in variables.py
 
-### check if user gave config file as arg, if error, print error and exit
-# if (len(sys.argv) == 1):
-#     print("no path was given")
-#     sys.exit(0)
+## check if user gave config file as arg, if error, print error and exit
+if (len(sys.argv) == 1):
+    print("no path was given")
+    sys.exit(0)
 
 ### open file, if error, print error and exit
 try:
-    file = open("config2", "r")
+    file = open(sys.argv[1], "r")
 except IOError:
     print("Error: File does not appear to exist.")
     sys.exit(0)
@@ -37,6 +38,13 @@ table, player1, player2, foods = parser(file)
 rounds = 200
 
 while rounds:
+
+    if player1["alpha"]["energy"] <= 0:
+        print("Player 2 Wins !")
+        sys.exit(0)
+    if player2["alpha"]["energy"] <= 0:
+        print("Player 1 Wins !")
+        sys.exit(0)
 
     print(term.home + term.clear)
     if rounds > 0 and rounds != 200:
@@ -53,6 +61,7 @@ while rounds:
         foods, player1, player2 = eat(table, cmds, foods, player1, player2)
         # attack
         player1, player2 = move(table, cmds, player1, player2)
+        player1, player2 = attack(table, cmds, player1, player2, pacified)
         
     elif rounds == 0:
         print("200 rounds played ")
