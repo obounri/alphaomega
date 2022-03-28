@@ -109,12 +109,12 @@ while rounds:
     if type1 == "human":
         cmd1 = input("Enter player 1's orders: ")
     elif type1 == "AI":
-        cmd1 = get_AI_orders(table, player1)
+        cmd1 = get_AI_orders(player1)
         print("AI of player 1 played", cmd1)
     if type2 == "human":
         cmd2 = input("Enter player 2's orders: ")
     elif type2 == "AI":
-        cmd2 = get_AI_orders(table, player2)
+        cmd2 = get_AI_orders(player2)
         print("AI of player 2 played", cmd2)
 
 # print(table)
