@@ -1,11 +1,5 @@
 import cmd
-from curses import KEY_ENTER, KEY_RIGHT
-from distutils.errors import LibError
-from operator import truediv
-import os
-from posixpath import splitdrive
 import sys
-from time import sleep
 import blessed
 from attack import attack
 from phase_2_3 import pacify, assign_bonuses
@@ -14,13 +8,15 @@ from parsing import parser, treat_orders
 from eating import eat
 from move import move
 from AI import get_AI_orders
+from time import sleep
+
 
 # setting variables
 term = blessed.Terminal()
 ### variables are set in variables.py
 
-## check if user gave config file as arg, if error, print error and exit
-if (len(sys.argv) != 6):
+## check if user gave config file as arg, defined players type, defined fps if both r AI, if error, print error and exit
+if (len(sys.argv) < 6 or len(sys.argv) > 7):
     print("Wrong arguments")
     sys.exit(0)
 
@@ -33,6 +29,10 @@ except IOError:
 
 type1 = sys.argv[3]
 type2 = sys.argv[5]
+if len(sys.argv) == 7:
+    fps = int(sys.argv[6])
+else:
+    fps = 1
 
 ### parser is defined in parsing.py
 table, player1, player2, foods = parser(file)
@@ -48,7 +48,6 @@ while rounds:
     if player2["alpha"]["energy"] <= 0:
         print("Player 1 Wins !")
         sys.exit(0)
-
 
     print(term.home + term.clear)
     if rounds > 0 and rounds != 200:
@@ -67,9 +66,8 @@ while rounds:
                 player2["omega"]["energy"] -= 40
         player1["normal"], player2["normal"] = assign_bonuses(table, player1, player2)
         foods, player1, player2 = eat(table, cmds, foods, player1, player2)
-        # attack
-        player1, player2 = move(table, cmds, player1, player2)
         player1, player2 = attack(table, cmds, player1, player2, pacified)
+        player1, player2 = move(table, cmds, player1, player2)
         
     elif rounds == 0:
         print("200 rounds played ")
@@ -103,6 +101,8 @@ while rounds:
     for row in world:
         print('|'.join(row))
         print("--┼" * table["l"])
+    if type1 == "AI" and type2 == "AI":
+        sleep(1 / fps)
 
     rounds -= 1
     cmds = []
@@ -110,32 +110,8 @@ while rounds:
         cmd1 = input("Enter player 1's orders: ")
     elif type1 == "AI":
         cmd1 = get_AI_orders(player1)
-        print("AI of player 1 played", cmd1)
     if type2 == "human":
         cmd2 = input("Enter player 2's orders: ")
     elif type2 == "AI":
         cmd2 = get_AI_orders(player2)
-        print("AI of player 2 played", cmd2)
 
-# print(table)
-# print("player1", player1)
-# print("player2", player2)
-# print("food", food)
-# str(max(abs(coord[1] - player1["omega"]["y"]), abs(coord[0] - player1["omega"]["x"])))
-### game flow = take orders, return = eating[], attacks[], moves[], pacification[], pacify, assign bonuses, eat(), attack(), move()
-### order exemple = 1-2:*3-4 5-6:@7-8 9-10:<10-11 13-14:pacify
-### pacified = [[x1, y1], [x2, y2], ...]
-            # possible animation template
-            #
-            # for coord in pacified:
-            #     world[coord[0]][coord[1]] = PACIFY
-            #     print(term.home + term.clear)
-            #     for row in world:
-            #         print('|'.join(row))
-            #         print("--┼" * table["l"])
-            # sleep(2)
-            #
-# check if target cell has food
-# check if first coord is ww
-# target cell is in perimeter of one cell away 
-# increment ww energy points while food_energy != 0 and ww_energy != 100

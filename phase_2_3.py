@@ -8,18 +8,24 @@ def pacify(table, omega1, omega2, orders):
         if orders[0][3][0][0] == omega1["x"] and orders[0][3][0][1] == omega1["y"]:
             if (omega1["energy"] >= 40):
                 p1_p = 1
+                print("Player1's Omega in [ ", omega1["y"], " , ", omega1["x"], " ] pacified werewolves present in 6 cells perimeter")
                 for i in range(-6, 7):
                     for j in range(-6, 7):
                         if in_map(table, omega1["x"] + i, omega1["y"] + j) == 1:
                             pacified.append([omega1["x"] + i, omega1["y"] + j])
+            else:
+                print("Player1's Omega couldn't pacify (low energy)")
     if len(orders[1][3]) != 0:
         if orders[1][3][0][0] == omega2["x"] and orders[1][3][0][1] == omega2["y"]:
             if (omega2["energy"] >= 40):
                 p2_p = 1
+                print("Player2's Omega in [ ", omega2["y"], " , ", omega2["x"], " ] pacified werewolves present in 6 cells perimeter")
                 for i in range(-6, 7):
                     for j in range(-6, 7):
                         if in_map(table, omega2["x"] + i, omega2["y"] + j) == 1 and [omega2["x"] + i, omega2["y"] + j] not in pacified:
                             pacified.append([omega2["x"] + i, omega2["y"] + j])
+            else:
+                print("Player2's Omega couldn't pacify (low energy)")
     return pacified, p1_p, p2_p
 
 def assign_bonuses(table, player1, player2):
