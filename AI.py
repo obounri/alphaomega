@@ -4,18 +4,19 @@ import random
 
 from phase_2_3 import pacify
 
-def get_AI_orders(player1):
+def get_AI_orders(player):
     allowed = ["<", "*", "@"]
     r = random.randint(1, 3)
     cmd = ""
     for _ in range(0, r):
-        rplayer1 = random.choice(player1["normal"])
+        rplayer = random.choice(player["normal"])
         rr1 = random.randint(0, 1)
         rr2 = random.randint(0, 1)
         rcmd = random.choice(allowed)
-        cmd += str(rplayer1["y"]) + "-" + str(rplayer1["y"]) + ":" + rcmd + str(rplayer1["y"] + rr1) + "-" + str(rplayer1["x"] + rr2) + " "
+        cmd += str(rplayer["y"]) + "-" + str(rplayer["y"]) + ":" + rcmd + str(rplayer["y"] + rr1) + "-" + str(rplayer["x"] + rr2) + " "
     pacify = random.randint(0, 3)
     if (pacify == 0):
-        cmd += str(player1["omega"]["y"]) + "-" + str(player1["omega"]["x"]) + ":pacify " 
+        if "omega" in player:
+            cmd += str(player["omega"]["y"]) + "-" + str(player["omega"]["x"]) + ":pacify " 
 
     return cmd

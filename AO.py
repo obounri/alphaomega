@@ -14,7 +14,7 @@ from time import sleep
 term = blessed.Terminal()
 ### variables are set in variables.py
 
-## check if user gave config file as arg, defined players type, defined fps if both r AI, if error, print error and exit
+## check if user gave config file as arg, defined players type, defined fps if both are AI, if error, print error and exit
 if (len(sys.argv) < 6 or len(sys.argv) > 7):
     print("Wrong arguments")
     sys.exit(0)
@@ -49,13 +49,6 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
 
     while rounds:
 
-        if player1["alpha"]["energy"] <= 0:
-            print("Player 2 Wins !")
-            sys.exit(0)
-        if player2["alpha"]["energy"] <= 0:
-            print("Player 1 Wins !")
-            sys.exit(0)
-
         print(term.home + term.clear)
         if rounds > 0 and rounds != 200:
             if type_1 == "AI" and round != 200:
@@ -66,7 +59,13 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
             cmds.append(treat_orders(cmd1))
             cmds.append(treat_orders(cmd2))
             if len(cmds[0]) == 4 or len(cmds[1]) == 4:
-                pacified, p1, p2 = pacify(table, player1["omega"], player2["omega"], cmds)
+                omega1 = {}
+                omega2 = {}
+                if "omega" in player1:
+                    omega1 = player1["omega"]
+                if "omega" in player2:
+                    omega2 = player2["omega"]
+                pacified, p1, p2 = pacify(table, omega1, omega2, cmds)
                 if p1 == 1:
                     player1["omega"]["energy"] -= 40
                 if p2 == 1:
@@ -74,6 +73,14 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
             player1["normal"], player2["normal"] = assign_bonuses(table, player1, player2)
             foods, player1, player2 = eat(table, cmds, foods, player1, player2)
             player1, player2 = attack(table, cmds, player1, player2, pacified)
+        
+            if player1["alpha"]["energy"] <= 0:
+                print("Player 2 Wins !")
+                sys.exit(0)
+            if player2["alpha"]["energy"] <= 0:
+                print("Player 1 Wins !")
+                sys.exit(0)
+
             player1, player2 = move(table, cmds, player1, player2)
             
         elif rounds == 0:
@@ -88,8 +95,10 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
 
         world[player1["alpha"]["y"]][player1["alpha"]["x"]] = ALPHA1
         world[player2["alpha"]["y"]][player2["alpha"]["x"]] = ALPHA2
-        world[player1["omega"]["y"]][player1["omega"]["x"]] = OMEGA1
-        world[player2["omega"]["y"]][player2["omega"]["x"]] = OMEGA2
+        if "omega" in player1:
+            world[player1["omega"]["y"]][player1["omega"]["x"]] = OMEGA1
+        if "omega" in player2:
+            world[player2["omega"]["y"]][player2["omega"]["x"]] = OMEGA2
 
         for normal in player1["normal"]:
             world[normal["y"]][normal["x"]] = N1
@@ -99,10 +108,6 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
         for l in foods:
             world[l["y"]][l["x"]] = FOODS[l["type"]]
 
-        # for tmp in player1["normal"]:
-        #     tmp = 0
-        # for tmp in player2["normal"]:    
-        #     tmp = 0
         ### map drawn, print it ###
         print("round ", 200 - rounds + 1)
         for row in world:

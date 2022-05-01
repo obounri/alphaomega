@@ -2,8 +2,9 @@
 def cell_has_ww(cell, player):
     if player["alpha"]["x"] == cell[0] and player["alpha"]["y"] == cell[1]:
         return 1, 0
-    if player["omega"]["x"] == cell[0] and player["omega"]["y"] == cell[1]:
-        return 2, 0
+    if "omega" in player:
+        if player["omega"]["x"] == cell[0] and player["omega"]["y"] == cell[1]:
+            return 2, 0
     for ww in player["normal"]:
         if ww["x"] == cell[0] and ww["y"] == cell[1]:
             return 3, player["normal"].index(ww)

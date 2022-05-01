@@ -4,7 +4,7 @@ def pacify(table, omega1, omega2, orders):
     pacified = []
     p1_p = 0
     p2_p = 0
-    if len(orders[0][3]) != 0:
+    if len(omega1) != 0 and len(orders[0][3]) != 0:
         if orders[0][3][0][0] == omega1["x"] and orders[0][3][0][1] == omega1["y"]:
             if (omega1["energy"] >= 40):
                 p1_p = 1
@@ -15,7 +15,8 @@ def pacify(table, omega1, omega2, orders):
                             pacified.append([omega1["x"] + i, omega1["y"] + j])
             else:
                 print("Player1's Omega couldn't pacify (low energy)")
-    if len(orders[1][3]) != 0:
+
+    if len(omega2) != 0 and len(orders[1][3]) != 0:
         if orders[1][3][0][0] == omega2["x"] and orders[1][3][0][1] == omega2["y"]:
             if (omega2["energy"] >= 40):
                 p2_p = 1
@@ -36,8 +37,9 @@ def assign_bonuses(table, player1, player2):
         for n in player1["normal"]:
             if ([n["x"], n["y"]] != [normal["x"], normal["y"]] and [n["x"], n["y"]] in pf):
                 normal["tmp"] += 10
-        if ([player1["omega"]["x"], player1["omega"]["y"]] in pf):
-            normal["tmp"] += 10
+        if "omega" in player1:
+            if ([player1["omega"]["x"], player1["omega"]["y"]] in pf):
+                normal["tmp"] += 10
         pa = perimeter(table, normal["x"], normal["y"], 4)
         if ([player1["alpha"]["x"], player1["alpha"]["y"]] in pa):
             normal["tmp"] += 30
@@ -48,8 +50,9 @@ def assign_bonuses(table, player1, player2):
         for n in player2["normal"]:
             if ([n["x"], n["y"]] != [normal["x"], normal["y"]] and [n["x"], n["y"]] in pf):
                 normal["tmp"] += 10
-        if ([player2["omega"]["x"], player2["omega"]["y"]] in pf):
-            normal["tmp"] += 10
+        if "omega" in player2:
+            if ([player2["omega"]["x"], player2["omega"]["y"]] in pf):
+                normal["tmp"] += 10
         pa = perimeter(table, normal["x"], normal["y"], 4)
         if ([player2["alpha"]["x"], player2["alpha"]["y"]] in pa):
             normal["tmp"] += 30
