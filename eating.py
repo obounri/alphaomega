@@ -24,8 +24,8 @@ def eat(table, cmds, foods, player1, player2):
                     player1["normal"][ww_cell]["energy"] += 1
                 print("Player1's WereWolf present in cell [ ", player1["normal"][ww_cell]["y"], " , ", player1["normal"][ww_cell]["x"], " ] gained ", player1["normal"][ww_cell]["energy"] - tmp, " energy points eating from one of the ", foods[food_cell]["type"], " present in cell [ ", foods[food_cell]["y"], " , ", foods[food_cell]["x"], " ] -", foods[food_cell]["energy"], " hp left in it-")
             if foods[food_cell]["energy"] == 0:
-                del foods[food_cell]
                 print("One of the ", foods[food_cell]["type"], " present in cell [ ", foods[food_cell]["y"], " , ", foods[food_cell]["x"], " ] was entirely consumed")
+                del foods[food_cell]
 
 
 
@@ -52,8 +52,8 @@ def eat(table, cmds, foods, player1, player2):
                     player2["normal"][ww_cell]["energy"] += 1
                 print("Player2's WereWolf present in cell [ ", player2["normal"][ww_cell]["y"], " , ", player2["normal"][ww_cell]["x"], " ] gained ", player2["normal"][ww_cell]["energy"] - tmp, " energy points eating from one of the ", foods[food_cell]["type"], " present in cell [ ", foods[food_cell]["y"], " , ", foods[food_cell]["x"], " ] -", foods[food_cell]["energy"], " hp left in it-")
             if foods[food_cell]["energy"] == 0:
-                del foods[food_cell]
                 print("One of the ", foods[food_cell]["type"], " present in cell [ ", foods[food_cell]["y"], " , ", foods[food_cell]["x"], " ] was entirely consumed")
+                del foods[food_cell]
     
     return foods, player1, player2
     

@@ -121,11 +121,11 @@ def play_game(map_path, group_1, type_1, group_2, type_2):
         if type_1 == "human":
             cmd1 = input("Enter player 1's orders: ")
         elif type_1 == "AI":
-            cmd1 = get_AI_orders(player1, player2)
+            cmd1 = get_AI_orders(player1, player2, table, foods)
         if type_2 == "human":
             cmd2 = input("Enter player 2's orders: ")
         elif type_2 == "AI":
-            cmd2 = get_AI_orders(player2, player1)
+            cmd2 = get_AI_orders(player2, player1, table, foods)
         
         # # get orders of player 1 and notify them to player 2, if necessary
         # if type_1 == 'remote':
