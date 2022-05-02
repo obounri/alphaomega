@@ -11,7 +11,7 @@ def pacify(table, omega1, omega2, orders):
                 print("Player1's Omega in [ ", omega1["y"], " , ", omega1["x"], " ] pacified werewolves present in 6 cells perimeter")
                 for i in range(-6, 7):
                     for j in range(-6, 7):
-                        if in_map(table, omega1["x"] + i, omega1["y"] + j) == 1:
+                        if in_map(table, omega1["x"] + i, omega1["y"] + j) == True:
                             pacified.append([omega1["x"] + i, omega1["y"] + j])
             else:
                 print("Player1's Omega couldn't pacify (low energy)")
@@ -23,7 +23,7 @@ def pacify(table, omega1, omega2, orders):
                 print("Player2's Omega in [ ", omega2["y"], " , ", omega2["x"], " ] pacified werewolves present in 6 cells perimeter")
                 for i in range(-6, 7):
                     for j in range(-6, 7):
-                        if in_map(table, omega2["x"] + i, omega2["y"] + j) == 1 and [omega2["x"] + i, omega2["y"] + j] not in pacified:
+                        if in_map(table, omega2["x"] + i, omega2["y"] + j) == True and [omega2["x"] + i, omega2["y"] + j] not in pacified:
                             pacified.append([omega2["x"] + i, omega2["y"] + j])
             else:
                 print("Player2's Omega couldn't pacify (low energy)")

@@ -13,18 +13,18 @@ def cell_has_ww(cell, player):
 def cell_has_food(cell, foods):
     for food in foods:
         if food["x"] == cell[0] and food["y"] == cell[1]:
-            return 1, foods.index(food)
-    return 0, 0
+            return True, foods.index(food)
+    return False, 0
 
 def in_map(table, x, y):
     if x < 1 or x > table["l"] - 1 or y < 1 or y > table["h"] - 1:
-        return 0
-    return 1
+        return False
+    return True
 
 def     perimeter(table, x, y, p):
     coords = []
     for i in range((-p), (p + 1)):
         for j in range((-p), (p + 1)):
-            if in_map(table, x + i, y + j) == 1:
+            if in_map(table, x + i, y + j) == True:
                 coords.append([x + i, y + j])
     return coords
