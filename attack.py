@@ -117,19 +117,19 @@ def attack(table, cmds, player1, player2, pacified):
                         damage = round(player2["normal"][ww_cell]["energy"] / 10)
                         player1["alpha"]["energy"] -= damage
                         tmp = player1["alpha"]["energy"]
-                        print("Player2's Werewolf in [ ", player2["normal"][ww_cell]["y"], " , " , player2["normal"][ww_cell]["x"], " attacked Player1's Alpha causing ", damage, " energy points damage", end="")
+                        print("Player2's Werewolf in [ ", player2["normal"][ww_cell]["y"], " , " , player2["normal"][ww_cell]["x"], " ] attacked Player1's Alpha causing ", damage, " energy points damage", end="")
                 elif has_ww == 3 and t_has_ww == 2:
                     if (player2["normal"][ww_cell]["energy"] != 0):
                         damage = round(player2["normal"][ww_cell]["energy"] / 10)
                         player1["omega"]["energy"] -= damage
                         tmp = player1["omega"]["energy"]
-                        print("Player2's Werewolf in [ ", player2["normal"][ww_cell]["y"], " , " , player2["normal"][ww_cell]["x"], " attacked Player1's Omega causing ", damage, " energy points damage", end="")
+                        print("Player2's Werewolf in [ ", player2["normal"][ww_cell]["y"], " , " , player2["normal"][ww_cell]["x"], " ] attacked Player1's Omega causing ", damage, " energy points damage", end="")
                 elif has_ww == 3 and t_has_ww == 3:
                     if (player2["normal"][ww_cell]["energy"] != 0):
                         damage = round(player2["normal"][ww_cell]["energy"] / 10)
                         player1["normal"][t_ww_cell]["energy"] -= round(player2["normal"][ww_cell]["energy"] / 10)
                         tmp = player1["normal"][t_ww_cell]["energy"]
-                        print("Player2's Werewolf in [ ", player2["normal"][ww_cell]["y"], " , " , player2["normal"][ww_cell]["x"], " attacked Player1's Werewolf in [ ", player1["normal"][t_ww_cell]["y"], " , " , player1["normal"][t_ww_cell]["x"], " ] causing ", damage,  " energy points damage", end="")
+                        print("Player2's Werewolf in [ ", player2["normal"][ww_cell]["y"], " , " , player2["normal"][ww_cell]["x"], " ] attacked Player1's Werewolf in [ ", player1["normal"][t_ww_cell]["y"], " , " , player1["normal"][t_ww_cell]["x"], " ] causing ", damage,  " energy points damage", end="")
                 if (tmp == 0):
                     print(" causing him death")
                     if t_has_ww == 2:
